@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator Studio</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4efe6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+        input, button, select {
+            padding: 10px;
+            margin: 5px;
+        }
+        .result {
+            font-weight: bold;
+            font-size: 18px;
+            color: green;
+        }
+        .chat-box {
+            height: 200px;
+            overflow-y: auto;
+            background: #fff7eb;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Calculator Studio</h1>
+
+    <!-- Calculator -->
+    <h2>Calculator</h2>
+    <input type="text" id="expression" placeholder="(12 + 8) / 5">
+    <button onclick="calculate()">=</button>
+    <div class="result" id="calcResult">0</div>
+
+    <!-- Solver -->
+    <h2>Solver</h2>
+    <select id="mode">
+        <option>Add</option>
+        <option>Subtract</option>
+        <option>Multiply</option>
+        <option>Divide</option>
+        <option>Average</option>
+        <option>Power</option>
+        <option>Percent Of</option>
+    </select><br>
+
+    <input type="number" id="v1" placeholder="Value 1">
+    <input type="number" id="v2" placeholder="Value 2">
+    <input type="number" id="v3" placeholder="Value 3">
+
+    <button onclick="solve()">Solve</button>
+    <div class="result" id="solverResult"></div>
+
+    <!-- Chat -->
+    <h2>Math Chat</h2>
+    <div class="chat-box" id="chat"></div>
+    <input type="text" id="chatInput" placeholder="Ask something...">
+    <button onclick="send()">Send</button>
+
+</div>
+
+<script>
+    // Calculator
+    function calculate() {
+        let exp = document.getElementById("expression").value;
+        try {
+            let result = eval(exp);
+            document.getElementById("calcResult").innerText = result;
+        } catch {
+            document.getElementById("calcResult").innerText = "Error";
+        }
+    }
+
+    // Solver
+    function solve() {
+        let mode = document.getElementById("mode").value;
+        let v1 = parseFloat(document.getElementById("v1").value) || 0;
+        let v2 = parseFloat(document.getElementById("v2").value) || 0;
+        let v3 = parseFloat(document.getElementById("v3").value) || 0;
+
+        let result = 0;
+
+        if (mode === "Add") result = v1 + v2 + v3;
+        if (mode === "Subtract") result = v1 - v2 - v3;
+        if (mode === "Multiply") result = v1 * v2 * v3;
+        if (mode === "Divide") result = v1 / v2;
+        if (mode === "Average") result = (v1 + v2 + v3) / 3;
+        if (mode === "Power") result = Math.pow(v1, v2);
+        if (mode === "Percent Of") result = (v1 / 100) * v2;
+
+        document.getElementById("solverResult").innerText = result;
+    }
+
+    // Chat
+    function send() {
+        let input = document.getElementById("chatInput").value;
+        let chat = document.getElementById("chat");
+
+        chat.innerHTML += "<p><b>You:</b> " + input + "</p>";
+
+        let reply = "Try something like: 25% of 80 or 5*6";
+
+        if (input.includes("average")) reply = "Average = sum / count";
+        if (input.includes("%")) reply = "Percent = value / 100 × total";
+
+        chat.innerHTML += "<p><b>Bot:</b> " + reply + "</p>";
+    }
+</script>
+
+</body>
+</html>
